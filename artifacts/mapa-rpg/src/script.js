@@ -48,7 +48,7 @@ const DADOS_PINS = {
      public/assets/fotos/minha-casa/
   ────────────────────────────────────────────── */
   'minha-casa': {
-    titulo:  'A Nossa Casa',
+    titulo:  'A Minha Casa',
     icone:   '🏡',
     texto:   'Quatro paredes que aprenderam a guardar risadas, abraços e o cheiro de domingo. Aqui cada canto tem uma memória escrita por nós dois.',
     contador: true,   // ← exibe o contador de dias neste pin
