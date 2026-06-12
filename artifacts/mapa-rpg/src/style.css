@@ -29,96 +29,43 @@ html, body {
 }
 
 /* ==========================================
-   PINS (MARCADORES)
+   PINS — HOTSPOTS INVISÍVEIS
+   A imagem já tem os marcadores desenhados.
+   Cada .pin é uma área clicável transparente
+   centrada sobre o pin da imagem, com brilho
+   suave ao passar o mouse.
    ========================================== */
 .pin {
   position: absolute;
-  transform: translate(-50%, -100%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%); /* centraliza no ponto exato */
   cursor: pointer;
   z-index: 10;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+
+  /* Invisível por padrão */
+  background: transparent;
+  border: none;
+
+  /* Anel de hover */
+  box-shadow: none;
+  transition: box-shadow 0.25s ease, background 0.25s ease;
 }
 
+/* Brilho dourado ao passar o mouse — indica que é clicável */
 .pin:hover {
-  transform: translate(-50%, -100%) scale(1.35);
+  background: rgba(220, 170, 50, 0.15);
+  box-shadow:
+    0 0 0 3px rgba(220, 170, 50, 0.5),
+    0 0 18px 6px rgba(220, 170, 50, 0.25);
   z-index: 20;
 }
 
-.pin:hover .pin-tooltip {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-4px);
-  pointer-events: auto;
-}
-
-.pin-icon {
-  width: 38px;
-  height: 38px;
-  color: #c0392b;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
-  transition: color 0.2s ease;
-}
-
-.pin-icon svg {
-  width: 100%;
-  height: 100%;
-}
-
-.pin.pin-casa .pin-icon {
-  color: #f39c12;
-}
-
-/* ==========================================
-   TOOLTIP
-   ========================================== */
-.pin-tooltip {
-  position: absolute;
-  bottom: calc(100% + 6px);
-  left: 50%;
-  transform: translateX(-50%) translateY(4px);
-  background: rgba(10, 8, 20, 0.92);
-  border: 1px solid rgba(200, 160, 80, 0.5);
-  border-radius: 8px;
-  padding: 10px 14px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.05);
-}
-
-.pin-tooltip::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 6px solid transparent;
-  border-top-color: rgba(10, 8, 20, 0.92);
-}
-
-.pin-label {
-  display: block;
-  font-family: 'Cinzel', serif;
-  font-size: 13px;
-  font-weight: 700;
-  color: #e8c97a;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-
-.pin-desc {
-  display: block;
-  font-family: 'Lato', sans-serif;
-  font-size: 11.5px;
-  font-weight: 300;
-  color: #c8bfb0;
-  letter-spacing: 0.02em;
-  max-width: 200px;
-  white-space: normal;
-  line-height: 1.5;
+/* Pulso de clique */
+.pin:active {
+  background: rgba(220, 170, 50, 0.28);
+  box-shadow: 0 0 0 5px rgba(220, 170, 50, 0.4);
 }
 
 /* ==========================================
@@ -451,11 +398,11 @@ html, body {
 
 #modal-album.hidden { display: none; }
 
-/* Grade 3 colunas fixas */
+/* Grade 2 colunas — máximo 4 fotos (2×2) */
 #album-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
 }
 
 /* Container de cada foto (polaroid) */

@@ -9,82 +9,138 @@
  */
 
 /* ================================================================
-   ETAPA 1 — DADOS DOS PINS (edite aqui para mudar o modal)
+   ✏️  EDITE AQUI — CONTEÚDO DE CADA PIN
    ================================================================
 
-   Cada chave deve corresponder exatamente ao atributo
-   data-pin-id="..." no HTML.
+   Cada chave deve corresponder ao atributo data-pin-id="..."
+   no index.html.
 
-   Campos disponíveis:
-     titulo    → título exibido no modal
-     icone     → emoji ou caractere decorativo
-     texto     → parágrafo de descrição
-     contador  → true para exibir o contador de dias (Etapa 2)
+   Campos editáveis:
+     titulo   → título grande do pergaminho
+     icone    → emoji decorativo
+     texto    → frase/parágrafo que aparece abaixo das fotos
+     contador → true = mostra o contador de dias neste pin
+     fotos    → até 4 fotos (grade 2×2)
+                src     → caminho em public/assets/fotos/<pasta>/
+                legenda → texto na polaroid e no lightbox
 */
 const DADOS_PINS = {
-  'utfpr': {
-    titulo:   'UTFPR — Cornélio Procópio',
-    icone:    '🏛️',
-    texto:    'Foi aqui, entre os corredores da UTFPR, que o destino nos colocou no mesmo caminho. Um olhar, uma conversa, e o que era desconhecido virou o começo da nossa história. Este lugar guarda o capítulo mais importante: o encontro.',
-    contador: false,
 
-    /*
-     * ÁLBUM DE FOTOS
-     * ──────────────
-     * Coloque seus arquivos em: public/assets/fotos/utfpr/
-     * Formatos suportados: .jpg, .jpeg, .png, .webp
-     *
-     * Cada item tem:
-     *   src     → caminho da imagem (relativo à pasta public/)
-     *   legenda → texto exibido no lightbox (opcional)
-     */
+  /* ──────────────────────────────────────────────
+     UTFPR — coloque as fotos em:
+     public/assets/fotos/utfpr/
+  ────────────────────────────────────────────── */
+  'utfpr': {
+    titulo:  'UTFPR — Cornélio Procópio',
+    icone:   '🏛️',
+    texto:   'Foi aqui, entre os corredores da UTFPR, que o destino nos colocou no mesmo caminho. Um olhar, uma conversa, e o que era desconhecido virou o começo da nossa história.',
+    contador: false,
     fotos: [
       { src: '/assets/fotos/utfpr/foto1.jpg', legenda: 'O primeiro encontro ✨' },
       { src: '/assets/fotos/utfpr/foto2.jpg', legenda: 'Nos corredores da UTFPR' },
       { src: '/assets/fotos/utfpr/foto3.jpg', legenda: 'Uma tarde inesquecível' },
+      { src: '/assets/fotos/utfpr/foto4.jpg', legenda: 'Mais uma memória' },
     ],
   },
 
+  /* ──────────────────────────────────────────────
+     MINHA CASA — coloque as fotos em:
+     public/assets/fotos/minha-casa/
+  ────────────────────────────────────────────── */
   'minha-casa': {
-    titulo:   'A Nossa Casa',
-    icone:    '🏡',
-    texto:    'Quatro paredes que aprenderam a guardar risadas, abraços e o cheiro de domingo. Aqui cada canto tem uma memória escrita por nós dois. É o lugar onde a aventura sempre termina e, ao mesmo tempo, recomeça.',
-    contador: true,
-
-    /*
-     * Coloque seus arquivos em: public/assets/fotos/minha-casa/
-     */
+    titulo:  'A Nossa Casa',
+    icone:   '🏡',
+    texto:   'Quatro paredes que aprenderam a guardar risadas, abraços e o cheiro de domingo. Aqui cada canto tem uma memória escrita por nós dois.',
+    contador: true,   // ← exibe o contador de dias neste pin
     fotos: [
       { src: '/assets/fotos/minha-casa/foto1.jpg', legenda: 'Domingo em casa 🏡' },
       { src: '/assets/fotos/minha-casa/foto2.jpg', legenda: 'Nosso cantinho favorito' },
+      { src: '/assets/fotos/minha-casa/foto3.jpg', legenda: 'Mais uma memória' },
+      { src: '/assets/fotos/minha-casa/foto4.jpg', legenda: 'Recordações' },
     ],
   },
 
-  /*
-   * Para adicionar um novo pin com modal + álbum, siga o exemplo:
-   *
-   * 'rio-de-janeiro': {
-   *   titulo:   'Rio de Janeiro',
-   *   icone:    '🌊',
-   *   texto:    'Minha origem, onde tudo começou antes de te encontrar.',
-   *   contador: false,
-   *   fotos: [
-   *     { src: '/assets/fotos/rio/foto1.jpg', legenda: 'Vista da Baía de Guanabara' },
-   *   ],
-   * },
-   */
+  /* ──────────────────────────────────────────────
+     RIO DE JANEIRO — coloque as fotos em:
+     public/assets/fotos/rio-de-janeiro/
+  ────────────────────────────────────────────── */
+  'rio-de-janeiro': {
+    titulo:  'Rio de Janeiro',
+    icone:   '🌊',
+    texto:   'Minha origem, onde tudo começou antes de te encontrar. A cidade que me formou e que um dia te apresentei.',
+    contador: false,
+    fotos: [
+      { src: '/assets/fotos/rio-de-janeiro/foto1.jpg', legenda: 'Vista da Baía de Guanabara' },
+      { src: '/assets/fotos/rio-de-janeiro/foto2.jpg', legenda: 'Minha cidade' },
+    ],
+  },
+
+  /* ──────────────────────────────────────────────
+     A VIAGEM — coloque as fotos em:
+     public/assets/fotos/a-viagem/
+  ────────────────────────────────────────────── */
+  'a-viagem': {
+    titulo:  'A Viagem',
+    icone:   '🚌',
+    texto:   'A mudança que me trouxe até você. Cada quilômetro rodado foi um passo em direção ao nosso começo.',
+    contador: false,
+    fotos: [
+      { src: '/assets/fotos/a-viagem/foto1.jpg', legenda: 'A partida' },
+      { src: '/assets/fotos/a-viagem/foto2.jpg', legenda: 'Pelo caminho' },
+    ],
+  },
+
+  /* ──────────────────────────────────────────────
+     DELLA PAZETTI — coloque as fotos em:
+     public/assets/fotos/della-pazetti/
+  ────────────────────────────────────────────── */
+  'della-pazetti': {
+    titulo:  'Della Pazetti',
+    icone:   '🍕',
+    texto:   'Nossas risadas, conversas e pizzas. O lugar onde a gente virou "nós".',
+    contador: false,
+    fotos: [
+      { src: '/assets/fotos/della-pazetti/foto1.jpg', legenda: 'Nossa mesa favorita' },
+      { src: '/assets/fotos/della-pazetti/foto2.jpg', legenda: 'A melhor pizza' },
+    ],
+  },
+
+  /* ──────────────────────────────────────────────
+     UTFPR GUARAPUAVA — coloque as fotos em:
+     public/assets/fotos/utfpr-guarapuava/
+  ────────────────────────────────────────────── */
+  'utfpr-guarapuava': {
+    titulo:  'UTFPR Guarapuava',
+    icone:   '🎓',
+    texto:   'Uma jornada além do campus. Novos horizontes, mesma parceria.',
+    contador: false,
+    fotos: [
+      { src: '/assets/fotos/utfpr-guarapuava/foto1.jpg', legenda: 'Campus Guarapuava' },
+    ],
+  },
+
+  /* ──────────────────────────────────────────────
+     O FUTURO — coloque as fotos em:
+     public/assets/fotos/o-futuro/
+  ────────────────────────────────────────────── */
+  'o-futuro': {
+    titulo:  'O Futuro',
+    icone:   '✨',
+    texto:   'Nossa próxima grande aventura. Ainda não explorado, mas já cheio de sonhos escritos a dois.',
+    contador: false,
+    fotos: [], // sem fotos por enquanto — adicione quando chegar a hora!
+  },
+
 };
 
 /* ================================================================
-   ETAPA 2 — DATA DE INÍCIO DO RELACIONAMENTO
+   ✏️  CONTADOR DE DIAS — edite o número abaixo
    ================================================================
-   Altere a linha abaixo para a data correta no formato:
-   new Date('AAAA-MM-DD')
-
-   Exemplo: se começaram em 14 de fevereiro de 2025 →
-   new Date('2025-02-14')
+   Coloque aqui o número de dias que vocês estão juntos.
+   O valor é exibido no pin que tiver  contador: true  acima.
+   Atualize manualmente sempre que quiser.
 */
-const DATA_INICIO = new Date('2025-01-01'); // ← ALTERE AQUI
+const DIAS_JUNTOS = 528; // ← ALTERE AQUI
 
 /* ================================================================
    ETAPA 3 — PLAYLIST
@@ -205,8 +261,8 @@ function renderizarAlbum(fotos, grid, container) {
 
   container.classList.remove('hidden');
 
-  // Limita a 6 fotos (grade 3×2)
-  const fotosVisiveis = fotos.slice(0, 6);
+  // Limita a 4 fotos (grade 2×2)
+  const fotosVisiveis = fotos.slice(0, 4);
 
   fotosVisiveis.forEach((foto, indice) => {
     const wrapper = document.createElement('div');
@@ -314,38 +370,11 @@ function abrirLightbox(fotos, indice) {
 }
 
 /* ================================================================
-   ETAPA 2 — CONTADOR DE DIAS
+   CONTADOR DE DIAS — usa o valor manual DIAS_JUNTOS
    ================================================================ */
 function inicializarContador() {
-  atualizarContador();
-
-  // Recalcula à meia-noite para se manter preciso
-  agendarMeiaNorte(atualizarContador);
-}
-
-function atualizarContador() {
   const el = document.getElementById('contador-dias');
-  if (!el) return;
-
-  const hoje    = new Date();
-  const diffMs  = hoje.setHours(0,0,0,0) - DATA_INICIO.setHours(0,0,0,0);
-  const diffDias = Math.max(0, Math.floor(diffMs / (1000 * 60 * 60 * 24)));
-
-  el.textContent = diffDias.toLocaleString('pt-BR');
-}
-
-function agendarMeiaNorte(callback) {
-  const agora     = new Date();
-  const meiaNorte = new Date(agora);
-  meiaNorte.setDate(agora.getDate() + 1);
-  meiaNorte.setHours(0, 0, 1, 0); // 00:00:01 do dia seguinte
-
-  const msAteMeiaNorte = meiaNorte - agora;
-
-  setTimeout(() => {
-    callback();
-    setInterval(callback, 24 * 60 * 60 * 1000); // repete a cada 24 h
-  }, msAteMeiaNorte);
+  if (el) el.textContent = DIAS_JUNTOS.toLocaleString('pt-BR');
 }
 
 /* ================================================================
