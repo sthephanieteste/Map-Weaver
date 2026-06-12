@@ -408,6 +408,182 @@ html, body {
   100% { transform: translate(8%, 6%); }
 }
 
+/* ==========================================
+   ÁLBUM DE MEMÓRIAS (dentro do pergaminho)
+   ========================================== */
+#modal-album {
+  margin-top: 6px;
+}
+
+#modal-album.hidden {
+  display: none;
+}
+
+.album-cabecalho {
+  margin-bottom: 14px;
+}
+
+.album-titulo {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #5a3800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 12px;
+}
+
+/* Grade de miniaturas */
+#album-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.album-thumb {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  width: 100%;
+  border-radius: 4px;
+  border: 2px solid #c8a84b;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  background: #d4b87a;
+}
+
+.album-thumb:hover {
+  transform: scale(1.06);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  border-color: #8b6914;
+  z-index: 1;
+  position: relative;
+}
+
+/* Mensagem quando não há fotos */
+.album-vazio {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  color: #7a5c2e;
+  font-style: italic;
+  padding: 16px 0;
+}
+
+/* ==========================================
+   LIGHTBOX
+   ========================================== */
+#lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0.93);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: modal-fade-in 0.2s ease;
+}
+
+#lightbox.hidden {
+  display: none;
+}
+
+#lightbox-conteudo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  max-width: min(900px, 90vw);
+  max-height: 90vh;
+}
+
+#lightbox-img {
+  max-width: 100%;
+  max-height: 75vh;
+  object-fit: contain;
+  border-radius: 4px;
+  border: 2px solid rgba(200, 160, 80, 0.4);
+  box-shadow: 0 0 60px rgba(0,0,0,0.8);
+  animation: lightbox-img-in 0.25s ease;
+}
+
+@keyframes lightbox-img-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1);    }
+}
+
+#lightbox-legenda {
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: #c8bfb0;
+  letter-spacing: 0.03em;
+  text-align: center;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+/* Botão de fechar */
+#lightbox-fechar {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #e0d8cc;
+  font-size: 20px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, transform 0.15s;
+}
+
+#lightbox-fechar:hover {
+  background: rgba(255,255,255,0.18);
+  transform: scale(1.1);
+}
+
+/* Botões anterior / próximo */
+#lightbox-anterior,
+#lightbox-proximo {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #e0d8cc;
+  font-size: 40px;
+  line-height: 1;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, transform 0.15s;
+  padding-bottom: 2px;
+}
+
+#lightbox-anterior { left: 20px; }
+#lightbox-proximo  { right: 20px; }
+
+#lightbox-anterior:hover,
+#lightbox-proximo:hover {
+  background: rgba(255,255,255,0.2);
+  transform: translateY(-50%) scale(1.08);
+}
+
+#lightbox-anterior.oculto,
+#lightbox-proximo.oculto {
+  opacity: 0.25;
+  pointer-events: none;
+}
+
 /* Utilitário global */
 .hidden {
   display: none !important;

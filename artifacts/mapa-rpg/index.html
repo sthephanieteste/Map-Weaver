@@ -100,6 +100,28 @@
           <span class="contador-label">dias</span>
           <span class="contador-coracao">♥</span>
         </div>
+
+        <!-- Álbum de Memórias -->
+        <div id="modal-album" class="hidden">
+          <div class="album-cabecalho">
+            <hr class="divisor">
+            <h3 class="album-titulo">📸 Memórias</h3>
+          </div>
+          <div id="album-grid">
+            <!-- Miniaturas injetadas pelo script.js -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lightbox (visualizador de foto em tela cheia) -->
+    <div id="lightbox" class="hidden">
+      <button id="lightbox-fechar" aria-label="Fechar">✕</button>
+      <button id="lightbox-anterior" aria-label="Anterior">&#8249;</button>
+      <button id="lightbox-proximo"  aria-label="Próximo">&#8250;</button>
+      <div id="lightbox-conteudo">
+        <img id="lightbox-img" src="" alt="">
+        <p id="lightbox-legenda"></p>
       </div>
     </div>
 

@@ -27,25 +27,50 @@ const DADOS_PINS = {
     icone:    '🏛️',
     texto:    'Foi aqui, entre os corredores da UTFPR, que o destino nos colocou no mesmo caminho. Um olhar, uma conversa, e o que era desconhecido virou o começo da nossa história. Este lugar guarda o capítulo mais importante: o encontro.',
     contador: false,
+
+    /*
+     * ÁLBUM DE FOTOS
+     * ──────────────
+     * Coloque seus arquivos em: public/assets/fotos/utfpr/
+     * Formatos suportados: .jpg, .jpeg, .png, .webp
+     *
+     * Cada item tem:
+     *   src     → caminho da imagem (relativo à pasta public/)
+     *   legenda → texto exibido no lightbox (opcional)
+     */
+    fotos: [
+      { src: '/assets/fotos/utfpr/foto1.jpg', legenda: 'O primeiro encontro ✨' },
+      { src: '/assets/fotos/utfpr/foto2.jpg', legenda: 'Nos corredores da UTFPR' },
+      { src: '/assets/fotos/utfpr/foto3.jpg', legenda: 'Uma tarde inesquecível' },
+    ],
   },
 
   'minha-casa': {
     titulo:   'A Nossa Casa',
     icone:    '🏡',
     texto:    'Quatro paredes que aprenderam a guardar risadas, abraços e o cheiro de domingo. Aqui cada canto tem uma memória escrita por nós dois. É o lugar onde a aventura sempre termina e, ao mesmo tempo, recomeça.',
-    contador: true,   // exibe o contador de dias ao abrir este pin
+    contador: true,
+
+    /*
+     * Coloque seus arquivos em: public/assets/fotos/minha-casa/
+     */
+    fotos: [
+      { src: '/assets/fotos/minha-casa/foto1.jpg', legenda: 'Domingo em casa 🏡' },
+      { src: '/assets/fotos/minha-casa/foto2.jpg', legenda: 'Nosso cantinho favorito' },
+    ],
   },
 
   /*
-   * Para adicionar um novo pin com modal, siga o exemplo abaixo
-   * e adicione o div.pin correspondente no index.html com
-   * o mesmo data-pin-id:
+   * Para adicionar um novo pin com modal + álbum, siga o exemplo:
    *
    * 'rio-de-janeiro': {
    *   titulo:   'Rio de Janeiro',
    *   icone:    '🌊',
    *   texto:    'Minha origem, onde tudo começou antes de te encontrar.',
    *   contador: false,
+   *   fotos: [
+   *     { src: '/assets/fotos/rio/foto1.jpg', legenda: 'Vista da Baía de Guanabara' },
+   *   ],
    * },
    */
 };
@@ -82,6 +107,7 @@ const PLAYLIST = [
 document.addEventListener('DOMContentLoaded', () => {
   inicializarNevoa();
   inicializarModal();
+  inicializarLightbox();
   inicializarContador();
   inicializarPlaylist();
 });
@@ -103,58 +129,182 @@ function inicializarNevoa() {
    ETAPA 1 — MODAL DE PERGAMINHO
    ================================================================ */
 function inicializarModal() {
-  const modal        = document.getElementById('modal');
-  const btnFechar    = document.getElementById('modal-fechar');
-  const modalTitulo  = document.getElementById('modal-titulo');
-  const modalIcone   = document.getElementById('modal-icone');
-  const modalTexto   = document.getElementById('modal-texto');
+  const modal         = document.getElementById('modal');
+  const btnFechar     = document.getElementById('modal-fechar');
+  const modalTitulo   = document.getElementById('modal-titulo');
+  const modalIcone    = document.getElementById('modal-icone');
+  const modalTexto    = document.getElementById('modal-texto');
   const modalContador = document.getElementById('modal-contador');
+  const modalAlbum    = document.getElementById('modal-album');
+  const albumGrid     = document.getElementById('album-grid');
 
   if (!modal) return;
 
-  // Escuta clique em todos os pins
+  function abrirModalPin(id, labelFallback) {
+    const dado = DADOS_PINS[id];
+    if (!dado) return;
+
+    // Preenche conteúdo principal
+    modalIcone.textContent  = dado.icone  || '📍';
+    modalTitulo.textContent = dado.titulo || labelFallback || id;
+    modalTexto.textContent  = dado.texto  || '';
+
+    // Contador de dias
+    dado.contador
+      ? modalContador.classList.remove('hidden')
+      : modalContador.classList.add('hidden');
+
+    // Álbum de fotos
+    renderizarAlbum(dado.fotos || [], albumGrid, modalAlbum);
+
+    modal.classList.remove('hidden');
+  }
+
+  // Escuta clique em todos os pins existentes
   document.querySelectorAll('.pin').forEach(pin => {
     pin.addEventListener('click', (e) => {
       e.stopPropagation();
-
-      const id   = pin.dataset.pinId;
-      const dado = DADOS_PINS[id];
-
-      if (!dado) return; // pin sem dados definidos → não abre modal
-
-      // Preenche o conteúdo
-      modalIcone.textContent  = dado.icone  || '📍';
-      modalTitulo.textContent = dado.titulo || id;
-      modalTexto.textContent  = dado.texto  || '';
-
-      // Mostra ou oculta o contador de dias
-      if (dado.contador) {
-        modalContador.classList.remove('hidden');
-      } else {
-        modalContador.classList.add('hidden');
-      }
-
-      // Exibe o modal
-      modal.classList.remove('hidden');
+      abrirModalPin(pin.dataset.pinId);
     });
   });
 
   // Fecha ao clicar no botão X
   btnFechar.addEventListener('click', fecharModal);
 
-  // Fecha ao clicar fora do pergaminho (no backdrop escurecido)
+  // Fecha ao clicar fora do pergaminho (no backdrop)
   modal.addEventListener('click', (e) => {
     if (e.target === modal) fecharModal();
   });
 
-  // Fecha com a tecla Escape
+  // Fecha com Escape (só fecha o modal se o lightbox estiver fechado)
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') fecharModal();
+    if (e.key === 'Escape') {
+      const lb = document.getElementById('lightbox');
+      if (!lb || lb.classList.contains('hidden')) fecharModal();
+    }
   });
 
   function fecharModal() {
     modal.classList.add('hidden');
   }
+
+  // Expõe para uso por adicionarPin()
+  window._abrirModalPin = abrirModalPin;
+}
+
+/* ----------------------------------------------------------------
+   Renderiza a grade de miniaturas do álbum
+   ---------------------------------------------------------------- */
+function renderizarAlbum(fotos, grid, container) {
+  grid.innerHTML = '';
+
+  if (!fotos || fotos.length === 0) {
+    container.classList.add('hidden');
+    return;
+  }
+
+  container.classList.remove('hidden');
+
+  fotos.forEach((foto, indice) => {
+    const img = document.createElement('img');
+    img.src       = foto.src;
+    img.alt       = foto.legenda || `Foto ${indice + 1}`;
+    img.className = 'album-thumb';
+    img.title     = foto.legenda || '';
+    img.loading   = 'lazy';
+
+    // Fallback visual se a imagem não carregar
+    img.onerror = () => {
+      img.style.display = 'none';
+      const placeholder = document.createElement('div');
+      placeholder.className   = 'album-thumb';
+      placeholder.style.cssText = `
+        display: flex; align-items: center; justify-content: center;
+        font-size: 28px; background: #d4b87a; cursor: default;
+        opacity: 0.5;
+      `;
+      placeholder.title = `Foto não encontrada: ${foto.src}`;
+      placeholder.textContent = '📷';
+      img.parentNode.replaceChild(placeholder, img);
+    };
+
+    img.addEventListener('click', () => {
+      abrirLightbox(fotos, indice);
+    });
+
+    grid.appendChild(img);
+  });
+}
+
+/* ================================================================
+   LIGHTBOX — Visualizador de foto em tela cheia
+   ================================================================ */
+let _lbFotos  = [];
+let _lbIndice = 0;
+
+function inicializarLightbox() {
+  const lb       = document.getElementById('lightbox');
+  const lbImg    = document.getElementById('lightbox-img');
+  const lbLeg    = document.getElementById('lightbox-legenda');
+  const btnFechar = document.getElementById('lightbox-fechar');
+  const btnAnter  = document.getElementById('lightbox-anterior');
+  const btnProx   = document.getElementById('lightbox-proximo');
+
+  if (!lb) return;
+
+  btnFechar.addEventListener('click', fecharLightbox);
+  lb.addEventListener('click', (e) => { if (e.target === lb) fecharLightbox(); });
+
+  btnAnter.addEventListener('click', () => navegarLightbox(-1));
+  btnProx.addEventListener('click',  () => navegarLightbox(+1));
+
+  document.addEventListener('keydown', (e) => {
+    if (lb.classList.contains('hidden')) return;
+    if (e.key === 'ArrowLeft')  navegarLightbox(-1);
+    if (e.key === 'ArrowRight') navegarLightbox(+1);
+    if (e.key === 'Escape')     fecharLightbox();
+  });
+
+  function fecharLightbox() {
+    lb.classList.add('hidden');
+    lbImg.src = '';
+  }
+
+  function atualizarBotoes() {
+    btnAnter.classList.toggle('oculto', _lbIndice === 0);
+    btnProx.classList.toggle('oculto',  _lbIndice === _lbFotos.length - 1);
+  }
+
+  function mostrarFoto(indice) {
+    _lbIndice = indice;
+    const foto = _lbFotos[_lbIndice];
+
+    // Re-anima a imagem a cada troca
+    lbImg.style.animation = 'none';
+    lbImg.offsetHeight;
+    lbImg.style.animation = '';
+
+    lbImg.src         = foto.src;
+    lbImg.alt         = foto.legenda || '';
+    lbLeg.textContent = foto.legenda || '';
+    atualizarBotoes();
+  }
+
+  function navegarLightbox(delta) {
+    const novo = _lbIndice + delta;
+    if (novo >= 0 && novo < _lbFotos.length) mostrarFoto(novo);
+  }
+
+  // Expõe globalmente para ser chamado por renderizarAlbum()
+  window._mostrarLightbox = (fotos, indice) => {
+    _lbFotos  = fotos;
+    lb.classList.remove('hidden');
+    mostrarFoto(indice);
+  };
+}
+
+function abrirLightbox(fotos, indice) {
+  if (window._mostrarLightbox) window._mostrarLightbox(fotos, indice);
 }
 
 /* ================================================================
@@ -250,7 +400,7 @@ function inicializarPlaylist() {
    ================================================================
    Use esta função para criar novos pins dinamicamente.
    Adicione também a entrada correspondente em DADOS_PINS acima
-   para que o modal funcione.
+   para que o modal e o álbum funcionem.
 
    adicionarPin({
      id:       'della-pazetti',
@@ -265,10 +415,10 @@ function adicionarPin({ id, label, descricao, top, left, cor }) {
   if (!container) return;
 
   const pin = document.createElement('div');
-  pin.className        = 'pin';
-  pin.style.top        = `${top}%`;
-  pin.style.left       = `${left}%`;
-  pin.dataset.pinId    = id || '';
+  pin.className     = 'pin';
+  pin.style.top     = `${top}%`;
+  pin.style.left    = `${left}%`;
+  pin.dataset.pinId = id || '';
 
   pin.innerHTML = `
     <div class="pin-icon" style="${cor ? `color: ${cor};` : ''}">
@@ -284,20 +434,10 @@ function adicionarPin({ id, label, descricao, top, left, cor }) {
 
   container.appendChild(pin);
 
-  // Reregistra os listeners do modal para incluir o novo pin
+  // Usa a função centralizada do modal (inicializada em inicializarModal)
   pin.addEventListener('click', (e) => {
     e.stopPropagation();
-    const dado = DADOS_PINS[pin.dataset.pinId];
-    if (!dado) return;
-
-    document.getElementById('modal-icone').textContent  = dado.icone  || '📍';
-    document.getElementById('modal-titulo').textContent = dado.titulo || label;
-    document.getElementById('modal-texto').textContent  = dado.texto  || '';
-
-    const mc = document.getElementById('modal-contador');
-    dado.contador ? mc.classList.remove('hidden') : mc.classList.add('hidden');
-
-    document.getElementById('modal').classList.remove('hidden');
+    if (window._abrirModalPin) window._abrirModalPin(pin.dataset.pinId, label);
   });
 
   return pin;
