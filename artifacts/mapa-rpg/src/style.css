@@ -29,6 +29,71 @@ html, body {
 }
 
 /* ==========================================
+   HINT DE ARRASTE (mobile)
+   ========================================== */
+#hint-arraste {
+  display: none; /* oculto no desktop */
+  position: fixed;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 80;
+  align-items: center;
+  gap: 6px;
+  background: rgba(10, 8, 20, 0.78);
+  border: 1px solid rgba(200, 160, 80, 0.4);
+  border-radius: 24px;
+  padding: 7px 16px;
+  color: #e8c97a;
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+  animation: hint-fade 4s ease forwards;
+}
+
+@keyframes hint-fade {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(6px); }
+  20%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+  80%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ==========================================
+   MOBILE — mapa panorâmico arrastável
+   ========================================== */
+@media (max-width: 768px) {
+  html, body {
+    overflow: auto;
+    /* scroll suave no iOS */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  #mapa-container {
+    /* tamanho fixo baseado na proporção original da imagem (1264 × 842) */
+    width: 1100px;
+    height: 734px;
+    background-size: 100% 100%; /* estica para cobrir o container exatamente */
+    background-position: top left;
+    min-height: unset;
+    overflow: visible;
+  }
+
+  /* Mostra o hint de arraste */
+  #hint-arraste {
+    display: flex;
+  }
+
+  /* Pergaminho: usa altura da tela dinâmica (svh) para evitar barra de endereço */
+  #modal-pergaminho {
+    max-height: 88svh;
+    width: min(500px, 94vw);
+  }
+}
+
+/* ==========================================
    PINS — HOTSPOTS INVISÍVEIS
    A imagem já tem os marcadores desenhados.
    Cada .pin é uma área clicável transparente

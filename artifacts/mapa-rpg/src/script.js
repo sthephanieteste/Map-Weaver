@@ -166,7 +166,26 @@ document.addEventListener('DOMContentLoaded', () => {
   inicializarLightbox();
   inicializarContador();
   inicializarPlaylist();
+  centralizarMapaMobile();
 });
+
+/* ================================================================
+   MOBILE — centraliza o mapa horizontalmente ao carregar
+   ================================================================ */
+function centralizarMapaMobile() {
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (!isMobile) return;
+
+  // Mapa renderizado em 1100px; centraliza na largura da tela
+  const mapaLargura = 1100;
+  const telaLargura = window.innerWidth;
+  const scrollX = Math.max(0, (mapaLargura - telaLargura) / 2);
+
+  // Aguarda a névoa sumir (3 s) antes de centralizar
+  setTimeout(() => {
+    window.scrollTo({ left: scrollX, top: 0, behavior: 'smooth' });
+  }, 3200);
+}
 
 /* ================================================================
    ETAPA 4 — NÉVOA
