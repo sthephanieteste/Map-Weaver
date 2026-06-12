@@ -70,19 +70,21 @@
     </div>
 
     <!-- =============================================
-         ETAPA 1: MODAL DE PERGAMINHO
+         MODAL DE PERGAMINHO
          ============================================= -->
     <div id="modal" class="hidden">
       <div id="modal-pergaminho">
+
+        <!-- Botão X -->
         <button id="modal-fechar" aria-label="Fechar modal">✕</button>
 
-        <!-- Decoração de canto -->
+        <!-- Ornamentos de canto -->
         <span class="canto canto-tl">❧</span>
         <span class="canto canto-tr">❧</span>
         <span class="canto canto-bl">❧</span>
         <span class="canto canto-br">❧</span>
 
-        <!-- Cabeçalho com ícone e título -->
+        <!-- Título centralizado (estilo capítulo de livro) -->
         <div id="modal-cabecalho">
           <div id="modal-icone">📍</div>
           <h2 id="modal-titulo">Título do Local</h2>
@@ -90,10 +92,18 @@
 
         <hr class="divisor">
 
-        <!-- Corpo do texto -->
+        <!-- Álbum de Memórias (acima do texto) -->
+        <div id="modal-album" class="hidden">
+          <div id="album-grid">
+            <!-- Miniaturas 3×2 injetadas pelo script.js -->
+          </div>
+          <hr class="divisor divisor-album">
+        </div>
+
+        <!-- Texto descritivo (abaixo das fotos) -->
         <p id="modal-texto">Descrição do local.</p>
 
-        <!-- Etapa 2: Contador de dias (exibido apenas no pin especial) -->
+        <!-- Contador de dias -->
         <div id="modal-contador" class="hidden">
           <span class="contador-label">Juntos há</span>
           <span id="contador-dias">0</span>
@@ -101,16 +111,11 @@
           <span class="contador-coracao">♥</span>
         </div>
 
-        <!-- Álbum de Memórias -->
-        <div id="modal-album" class="hidden">
-          <div class="album-cabecalho">
-            <hr class="divisor">
-            <h3 class="album-titulo">📸 Memórias</h3>
-          </div>
-          <div id="album-grid">
-            <!-- Miniaturas injetadas pelo script.js -->
-          </div>
+        <!-- Rodapé decorativo -->
+        <div id="modal-rodape">
+          <span class="rodape-scroll">📜</span>
         </div>
+
       </div>
     </div>
 

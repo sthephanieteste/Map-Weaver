@@ -122,10 +122,10 @@ html, body {
 }
 
 /* ==========================================
-   ETAPA 1: MODAL DE PERGAMINHO
+   MODAL DE PERGAMINHO
    ========================================== */
 
-/* Fundo escurecido (backdrop) */
+/* Backdrop escurecido */
 #modal {
   position: fixed;
   inset: 0;
@@ -133,130 +133,164 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(5, 3, 15, 0.7);
-  backdrop-filter: blur(3px);
-
-  /* Animação de entrada */
-  animation: modal-fade-in 0.35s ease;
+  background: rgba(5, 3, 15, 0.75);
+  backdrop-filter: blur(4px);
+  animation: modal-fade-in 0.3s ease;
 }
 
-#modal.hidden {
-  display: none;
-}
+#modal.hidden { display: none; }
 
 @keyframes modal-fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
-/* O pergaminho em si */
+/* Pergaminho */
 #modal-pergaminho {
   position: relative;
-  width: min(520px, 90vw);
-  max-height: 80vh;
+  width: min(620px, 92vw);
+  max-height: 88vh;
   overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #c8a84b #e8d5a3;
 
-  /* Textura e cor de pergaminho */
-  background-color: #f0e4c2;
+  /* Fundo: papel envelhecido com manchas nas bordas */
+  background-color: #f2e6c8;
   background-image:
-    radial-gradient(ellipse at top left,    #e8d5a3 0%, transparent 60%),
-    radial-gradient(ellipse at bottom right, #c9b07a 0%, transparent 60%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    radial-gradient(ellipse 80% 60% at 10% 5%,  rgba(180,130,50,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 90% 95%, rgba(150,100,30,0.30) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(240,220,170,0.0) 0%, rgba(180,140,70,0.08) 100%);
 
-  border-radius: 4px;
-  padding: 42px 48px 36px;
+  padding: 44px 52px 32px;
+  border-radius: 3px;
 
-  /* Borda dupla decorativa */
-  border: 3px solid #8b6914;
-  outline: 6px solid transparent;
+  /* Borda tripla: fina dourada, espaço, grossa dourada */
+  border: 2px solid #7a5a10;
   box-shadow:
-    0 0 0 9px #c8a84b,
-    0 0 0 12px #8b6914,
-    0 20px 60px rgba(0, 0, 0, 0.7),
-    inset 0 0 40px rgba(139, 105, 20, 0.15);
+    0 0 0 2px #f2e6c8,
+    0 0 0 5px #c8a84b,
+    0 0 0 7px #7a5a10,
+    0 24px 70px rgba(0,0,0,0.75),
+    inset 0 0 60px rgba(139,105,20,0.12);
 
   animation: pergaminho-in 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   color: #2c1a00;
 }
 
 @keyframes pergaminho-in {
-  from { transform: scale(0.85) translateY(20px); opacity: 0; }
-  to   { transform: scale(1) translateY(0);       opacity: 1; }
+  from { transform: scale(0.88) translateY(24px); opacity: 0; }
+  to   { transform: scale(1)    translateY(0);    opacity: 1; }
 }
 
-/* Botão de fechar */
+/* Scrollbar estilizada */
+#modal-pergaminho::-webkit-scrollbar       { width: 6px; }
+#modal-pergaminho::-webkit-scrollbar-track { background: #e8d5a3; border-radius: 4px; }
+#modal-pergaminho::-webkit-scrollbar-thumb { background: #c8a84b; border-radius: 4px; }
+
+/* ── Botão fechar ── */
 #modal-fechar {
   position: absolute;
-  top: 12px;
-  right: 16px;
-  background: none;
-  border: none;
-  font-size: 18px;
-  color: #6b4c11;
+  top: -1px;
+  right: -1px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #7a5a10;
+  background: #c8a84b;
+  color: #3a2000;
+  font-size: 15px;
+  font-weight: 700;
   cursor: pointer;
-  line-height: 1;
-  padding: 4px 8px;
-  border-radius: 4px;
-  transition: color 0.15s, background 0.15s;
-}
-
-#modal-fechar:hover {
-  color: #2c1a00;
-  background: rgba(139, 105, 20, 0.15);
-}
-
-/* Ornamentos de canto */
-.canto {
-  position: absolute;
-  font-size: 22px;
-  color: #8b6914;
-  line-height: 1;
-  user-select: none;
-}
-.canto-tl { top: 10px;  left: 14px;  transform: rotate(0deg); }
-.canto-tr { top: 10px;  right: 14px; transform: scaleX(-1); }
-.canto-bl { bottom: 10px; left: 14px;  transform: scaleY(-1); }
-.canto-br { bottom: 10px; right: 14px; transform: scale(-1); }
-
-/* Cabeçalho do modal */
-#modal-cabecalho {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 12px;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  transition: background 0.15s, transform 0.15s;
+  z-index: 5;
+}
+#modal-fechar:hover {
+  background: #e8c060;
+  transform: scale(1.1);
+}
+
+/* ── Ornamentos de canto ── */
+.canto {
+  position: absolute;
+  font-size: 18px;
+  color: #9a7320;
+  line-height: 1;
+  user-select: none;
+  opacity: 0.8;
+}
+.canto-tl { top: 12px; left: 16px; }
+.canto-tr { top: 12px; right: 38px; transform: scaleX(-1); }
+.canto-bl { bottom: 12px; left: 16px;  transform: scaleY(-1); }
+.canto-br { bottom: 12px; right: 16px; transform: scale(-1); }
+
+/* ── Cabeçalho: título centralizado ── */
+#modal-cabecalho {
+  text-align: center;
+  margin-bottom: 4px;
 }
 
 #modal-icone {
-  font-size: 30px;
+  font-size: 26px;
   line-height: 1;
-  flex-shrink: 0;
+  margin-bottom: 6px;
 }
 
 #modal-titulo {
   font-family: 'Cinzel', serif;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
-  color: #4a2c00;
-  letter-spacing: 0.06em;
-  line-height: 1.2;
+  color: #3a1f00;
+  letter-spacing: 0.05em;
+  line-height: 1.25;
+  text-transform: uppercase;
 }
 
-/* Linha divisória decorativa */
+/* ── Divisor ornamental ── */
 .divisor {
   border: none;
   height: 2px;
-  background: linear-gradient(to right, transparent, #8b6914 20%, #c8a84b 50%, #8b6914 80%, transparent);
-  margin: 14px 0 18px;
+  background: linear-gradient(to right,
+    transparent,
+    #9a7320 15%,
+    #e8c060 50%,
+    #9a7320 85%,
+    transparent
+  );
+  margin: 12px 0 16px;
 }
 
-/* Texto do modal */
+.divisor-album {
+  margin: 18px 0 14px;
+}
+
+/* ── Texto do local ── */
 #modal-texto {
   font-family: 'Lato', sans-serif;
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 400;
   color: #3a2200;
-  line-height: 1.75;
-  text-align: justify;
+  line-height: 1.8;
+  text-align: center;
+  font-style: italic;
+}
+
+/* ── Rodapé decorativo ── */
+#modal-rodape {
+  text-align: center;
+  margin-top: 18px;
+  line-height: 1;
+}
+
+.rodape-scroll {
+  font-size: 28px;
+  opacity: 0.55;
+  display: inline-block;
+  filter: sepia(1) saturate(0.6) brightness(0.7);
 }
 
 /* ==========================================
@@ -409,57 +443,82 @@ html, body {
 }
 
 /* ==========================================
-   ÁLBUM DE MEMÓRIAS (dentro do pergaminho)
+   ÁLBUM DE MEMÓRIAS (grade 3×2, estilo polaroid)
    ========================================== */
 #modal-album {
-  margin-top: 6px;
+  margin-bottom: 4px;
 }
 
-#modal-album.hidden {
-  display: none;
-}
+#modal-album.hidden { display: none; }
 
-.album-cabecalho {
-  margin-bottom: 14px;
-}
-
-.album-titulo {
-  font-family: 'Cinzel', serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #5a3800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-top: 12px;
-}
-
-/* Grade de miniaturas */
+/* Grade 3 colunas fixas */
 #album-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: 10px;
 }
 
-.album-thumb {
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  width: 100%;
-  border-radius: 4px;
-  border: 2px solid #c8a84b;
+/* Container de cada foto (polaroid) */
+.foto-wrapper {
+  position: relative;
+  background: #fff;
+  padding: 6px 6px 22px;
+  border-radius: 2px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.28), 0 1px 3px rgba(0,0,0,0.15);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  background: #d4b87a;
+  transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease;
+  /* Rotação alternada para parecer fotos espalhadas */
 }
+.foto-wrapper:nth-child(odd)  { transform: rotate(-1.2deg); }
+.foto-wrapper:nth-child(even) { transform: rotate( 1.0deg); }
 
-.album-thumb:hover {
-  transform: scale(1.06);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-  border-color: #8b6914;
-  z-index: 1;
+.foto-wrapper:hover {
+  transform: rotate(0deg) scale(1.08) !important;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.4);
+  z-index: 2;
   position: relative;
 }
 
-/* Mensagem quando não há fotos */
+/* Imagem dentro do polaroid */
+.album-thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 1px;
+  background: #d4c8a8;
+}
+
+/* Legenda embaixo do polaroid */
+.foto-legenda {
+  display: block;
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+  font-size: 9.5px;
+  color: #5a4020;
+  line-height: 1.3;
+  margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.02em;
+}
+
+/* Placeholder quando foto não carrega */
+.foto-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #e0d0a8;
+  font-size: 28px;
+  color: #a08040;
+  border-radius: 1px;
+  cursor: default;
+}
+
+/* Mensagem vazia */
 .album-vazio {
   grid-column: 1 / -1;
   text-align: center;
@@ -467,7 +526,7 @@ html, body {
   font-size: 13px;
   color: #7a5c2e;
   font-style: italic;
-  padding: 16px 0;
+  padding: 12px 0;
 }
 
 /* ==========================================

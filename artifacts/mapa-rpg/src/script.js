@@ -193,7 +193,7 @@ function inicializarModal() {
 }
 
 /* ----------------------------------------------------------------
-   Renderiza a grade de miniaturas do álbum
+   Renderiza a grade de miniaturas estilo polaroid (3×2 máx 6 fotos)
    ---------------------------------------------------------------- */
 function renderizarAlbum(fotos, grid, container) {
   grid.innerHTML = '';
@@ -205,34 +205,40 @@ function renderizarAlbum(fotos, grid, container) {
 
   container.classList.remove('hidden');
 
-  fotos.forEach((foto, indice) => {
+  // Limita a 6 fotos (grade 3×2)
+  const fotosVisiveis = fotos.slice(0, 6);
+
+  fotosVisiveis.forEach((foto, indice) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'foto-wrapper';
+    wrapper.title     = foto.legenda || '';
+
     const img = document.createElement('img');
     img.src       = foto.src;
     img.alt       = foto.legenda || `Foto ${indice + 1}`;
     img.className = 'album-thumb';
-    img.title     = foto.legenda || '';
     img.loading   = 'lazy';
 
-    // Fallback visual se a imagem não carregar
+    // Fallback: placeholder quando a imagem não carrega
     img.onerror = () => {
-      img.style.display = 'none';
-      const placeholder = document.createElement('div');
-      placeholder.className   = 'album-thumb';
-      placeholder.style.cssText = `
-        display: flex; align-items: center; justify-content: center;
-        font-size: 28px; background: #d4b87a; cursor: default;
-        opacity: 0.5;
-      `;
-      placeholder.title = `Foto não encontrada: ${foto.src}`;
-      placeholder.textContent = '📷';
-      img.parentNode.replaceChild(placeholder, img);
+      const ph = document.createElement('div');
+      ph.className   = 'foto-placeholder';
+      ph.textContent = '📷';
+      ph.title = `Adicione: ${foto.src}`;
+      wrapper.replaceChild(ph, img);
     };
 
-    img.addEventListener('click', () => {
-      abrirLightbox(fotos, indice);
-    });
+    const legenda = document.createElement('span');
+    legenda.className   = 'foto-legenda';
+    legenda.textContent = foto.legenda || '';
 
-    grid.appendChild(img);
+    wrapper.appendChild(img);
+    wrapper.appendChild(legenda);
+
+    // Abre lightbox ao clicar na foto
+    wrapper.addEventListener('click', () => abrirLightbox(fotos, indice));
+
+    grid.appendChild(wrapper);
   });
 }
 
