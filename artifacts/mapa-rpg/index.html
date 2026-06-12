@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>Nossa História — Mapa Interativo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/style.css">
+  </head>
+  <body>
+
+    <div id="mapa-container">
+
+      <!--
+        ╔══════════════════════════════════════════════════════════════╗
+        ║  COMO AJUSTAR AS POSIÇÕES DOS PINS                          ║
+        ║                                                              ║
+        ║  Cada pin usa "top" e "left" em porcentagem (%).            ║
+        ║  - top: 0%  = topo da imagem                                ║
+        ║  - top: 100% = base da imagem                               ║
+        ║  - left: 0%  = lado esquerdo da imagem                      ║
+        ║  - left: 100% = lado direito da imagem                      ║
+        ║                                                              ║
+        ║  Exemplo: top="35%" left="58%" posiciona o pin a 35%        ║
+        ║  de distância do topo e 58% da esquerda.                    ║
+        ╚══════════════════════════════════════════════════════════════╝
+      -->
+
+      <!-- PIN 1: UTFPR — Prédio da universidade -->
+      <div class="pin" style="top: 33%; left: 57%;">
+        <div class="pin-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5 14.5 7.62 14.5 9 13.38 11.5 12 11.5z"/>
+          </svg>
+        </div>
+        <div class="pin-tooltip">
+          <span class="pin-label">UTFPR</span>
+          <span class="pin-desc">Onde nos conhecemos e tudo começou.</span>
+        </div>
+      </div>
+
+      <!-- PIN 2: Minha Casa — Logo atrás do prédio da UTFPR -->
+      <div class="pin pin-casa" style="top: 58%; left: 47%;">
+        <div class="pin-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5 14.5 7.62 14.5 9 13.38 11.5 12 11.5z"/>
+          </svg>
+        </div>
+        <div class="pin-tooltip">
+          <span class="pin-label">Minha Casa</span>
+          <span class="pin-desc">O nosso lar, o começo de tudo.</span>
+        </div>
+      </div>
+
+    </div>
+
+    <script type="module" src="/src/script.js"></script>
+  </body>
+</html>

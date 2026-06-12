@@ -1,0 +1,135 @@
+/* ==========================================
+   RESET & BASE
+   ========================================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ==========================================
+   CONTAINER DO MAPA
+   ========================================== */
+#mapa-container {
+  position: relative;           /* necessário para que os pins fiquem dentro do container */
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/mapa.png');
+  background-size: cover;       /* cobre toda a área sem distorcer */
+  background-position: center;  /* centraliza a imagem */
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+/* ==========================================
+   PINS (MARCADORES)
+   ========================================== */
+.pin {
+  position: absolute;           /* posicionado relativo ao #mapa-container */
+  transform: translate(-50%, -100%); /* ancoragem na ponta inferior do pin */
+  cursor: pointer;
+  z-index: 10;
+
+  /* Transição suave para hover */
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+}
+
+/* Efeito de escala (zoom) ao passar o mouse */
+.pin:hover {
+  transform: translate(-50%, -100%) scale(1.35);
+  z-index: 20;
+}
+
+/* Exibe o tooltip ao hovear */
+.pin:hover .pin-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
+  pointer-events: auto;
+}
+
+/* ==========================================
+   ÍCONE DO PIN
+   ========================================== */
+.pin-icon {
+  width: 38px;
+  height: 38px;
+  color: #c0392b;               /* vermelho vivo — cor padrão do pin */
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+  transition: color 0.2s ease;
+}
+
+.pin-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Cor alternativa para o pin "Minha Casa" */
+.pin.pin-casa .pin-icon {
+  color: #f39c12;               /* dourado/âmbar */
+}
+
+/* ==========================================
+   TOOLTIP (BALÃO DE INFORMAÇÃO)
+   ========================================== */
+.pin-tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);    /* aparece acima do ícone */
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+
+  background: rgba(10, 8, 20, 0.92);
+  border: 1px solid rgba(200, 160, 80, 0.5);
+  border-radius: 8px;
+  padding: 10px 14px;
+  white-space: nowrap;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+
+  backdrop-filter: blur(6px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+/* Triângulo inferior do tooltip */
+.pin-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(10, 8, 20, 0.92);
+}
+
+/* Nome do local */
+.pin-label {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #e8c97a;               /* dourado */
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+/* Descrição do local */
+.pin-desc {
+  display: block;
+  font-family: 'Lato', sans-serif;
+  font-size: 11.5px;
+  font-weight: 300;
+  color: #c8bfb0;               /* bege claro */
+  letter-spacing: 0.02em;
+  max-width: 200px;
+  white-space: normal;
+  line-height: 1.5;
+}
